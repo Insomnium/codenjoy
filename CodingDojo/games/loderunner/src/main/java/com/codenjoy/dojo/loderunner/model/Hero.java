@@ -261,4 +261,13 @@ public class Hero extends PlayerHero<Field> implements State<Elements, Player> {
             return underKillerPill ? Elements.HERO_SHADOW_RIGHT : Elements.HERO_RIGHT;
         }
     }
+
+    public void setSuicide(boolean suicide) {
+        this.suicide = suicide;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
 }

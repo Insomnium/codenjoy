@@ -53,8 +53,16 @@ public class Player extends GamePlayer<Hero, Field> {
     @Override
     public void newHero(Field field) {
         Point pt = field.getFreeRandom();
+        boolean alive = true;
+        boolean suicide = false;
+        if(hero != null && hero.isSuicide() && !hero.isAlive()) {
+           alive = hero.isAlive();
+           suicide = hero.isSuicide();
+        }
         hero = new Hero(pt, Direction.RIGHT, shadowPillTicks);
         hero.init(field);
+        hero.setAlive(alive);
+        hero.setSuicide(suicide);
     }
 
     @Override

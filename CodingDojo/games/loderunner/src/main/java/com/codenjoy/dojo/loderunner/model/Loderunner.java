@@ -132,6 +132,8 @@ public class Loderunner implements Field {
     private void penaltySuicide(Player deadHero) {
         if (deadHero.getHero().isSuicide()) {
             deadHero.event(Events.SUICIDE);
+            deadHero.getHero().setAlive(true);
+            deadHero.getHero().setSuicide(false);
         }
     }
 
