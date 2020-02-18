@@ -22,17 +22,16 @@ package com.codenjoy.dojo.services.multiplayer;
  * #L%
  */
 
+import static java.util.stream.Collectors.toList;
+
 import com.codenjoy.dojo.services.Game;
 import com.codenjoy.dojo.services.GameType;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import static java.util.stream.Collectors.toList;
+import org.json.JSONObject;
 
 public class Spreader {
 
@@ -47,13 +46,13 @@ public class Spreader {
         if (!type.isTraining() || type.isLastLevel(levelNumber)) {
             room = findUnfilled(gameType);
         }
-        if (room == null) {
+        if (room == null) { // в момент смены типа мультиплеера нужно сменить disposable флаг текущих румов
             room = new Room(supplier.get(), roomSize, type.isDisposable());
             add(gameType, room);
         }
-        else {
-            room.resize(roomSize);
-        }
+//        else {
+//            room.resize(roomSize);
+//        }
 
         GameField field = room.getField(player);
         return field;
