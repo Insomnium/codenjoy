@@ -23,20 +23,28 @@ package com.codenjoy.dojo.services;
  */
 
 
-import com.codenjoy.dojo.services.lock.LockedGame;
-import com.codenjoy.dojo.services.multiplayer.*;
-import com.codenjoy.dojo.services.nullobj.NullPlayerGame;
-import org.json.JSONObject;
-import org.springframework.stereotype.Component;
+import static com.codenjoy.dojo.services.PlayerGame.by;
+import static java.util.stream.Collectors.toList;
 
-import java.util.*;
+import com.codenjoy.dojo.services.lock.LockedGame;
+import com.codenjoy.dojo.services.multiplayer.GameField;
+import com.codenjoy.dojo.services.multiplayer.GamePlayer;
+import com.codenjoy.dojo.services.multiplayer.LevelProgress;
+import com.codenjoy.dojo.services.multiplayer.MultiplayerType;
+import com.codenjoy.dojo.services.multiplayer.Single;
+import com.codenjoy.dojo.services.multiplayer.Spreader;
+import com.codenjoy.dojo.services.nullobj.NullPlayerGame;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
-import static com.codenjoy.dojo.services.PlayerGame.by;
-import static java.util.stream.Collectors.toList;
+import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PlayerGames implements Iterable<PlayerGame>, Tickable {
@@ -279,6 +287,11 @@ public class PlayerGames implements Iterable<PlayerGame>, Tickable {
                 Collections.shuffle(this);
             }
         }}.forEach(pg -> reloadCurrent(pg));
+    }
+
+    public void rebootRooms() {
+        playerGames.forEach(playerGame -> removeAndLeaveAlone(playerGame.getGame()));
+        playerGames.forEach(this::reloadCurrent);
     }
 
     private Player getPlayer(Game game) {

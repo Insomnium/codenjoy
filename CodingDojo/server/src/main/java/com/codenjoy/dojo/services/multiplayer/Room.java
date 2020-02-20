@@ -60,7 +60,7 @@ public class Room {
 
     public boolean isStuffed() {
         if (disposable) {
-            return wasCount == count || count > players.size();
+            return wasCount == count /*|| count > players.size()*/;
         } else {
             return true;
         }

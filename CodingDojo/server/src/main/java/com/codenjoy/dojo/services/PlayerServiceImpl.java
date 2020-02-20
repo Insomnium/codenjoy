@@ -577,7 +577,7 @@ public class PlayerServiceImpl implements PlayerService {
     public void reloadAllRooms() {
         lock.writeLock().lock();
         try {
-            playerGames.reloadAll(true);
+            playerGames.rebootRooms();
         } finally {
             lock.writeLock().unlock();
         }
