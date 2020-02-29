@@ -33,7 +33,7 @@ $ROOT/mvnw clean install -DskipTests -q
 
 cd "$ROOT/server"
 log "Running game server"
-$ROOT/mvnw clean spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -Dmaven.test.skip=true -Dspring.profiles.active=sqlite,$GAME,debug -Dserver.port=8080" "-P$GAME"
+$ROOT/mvnw clean spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 -Dmaven.test.skip=true -Dspring.profiles.active=sqlite,$GAME,debug -Dserver.port=8080 -Dadmin.password=supersecurepassword" "-P$GAME"
 
 
 #cd ./CodingDojo/server
