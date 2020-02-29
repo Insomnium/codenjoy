@@ -216,6 +216,12 @@ public class SnakeBoard implements Field {
             for (int j = 0; j < stoneDiff; j++) {
                 setStone(getFreeRandom());
             }
+        } else {
+            this.stones = new ArrayList<>();
+            int stoneDiff = stonesPerMap.getValue() - stones.size();
+            for (int j = 0; j < stoneDiff; j++) {
+                setStone(getFreeRandom());
+            }
         }
 
         if (apples.size() < applesPerMap.getValue()) {
@@ -224,6 +230,12 @@ public class SnakeBoard implements Field {
                 setApple(getFreeRandom());
             }
 
+        } else {
+            this.apples = new ArrayList<>();
+            int stoneDiff = applesPerMap.getValue() - apples.size();
+            for (int j = 0; j < stoneDiff; j++) {
+                setApple(getFreeRandom());
+            }
         }
     }
 
