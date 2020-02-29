@@ -96,7 +96,7 @@ public class Semifinal implements Tickable {
 
         // если после удаления надо перегруппировать участников по бордам
         if (settings.isResetBoard()) {
-            playerGames.reloadAll(settings.isShuffleBoard());
+            playerGames.rebootRooms();
         }
     }
 
