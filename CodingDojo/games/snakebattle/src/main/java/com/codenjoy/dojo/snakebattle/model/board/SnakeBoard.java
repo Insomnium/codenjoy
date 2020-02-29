@@ -48,6 +48,7 @@ import com.codenjoy.dojo.snakebattle.services.Events;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 
@@ -217,11 +218,11 @@ public class SnakeBoard implements Field {
                 setStone(getFreeRandom());
             }
         } else {
-            this.stones = new ArrayList<>();
             int stoneDiff = stonesPerMap.getValue() - stones.size();
-            for (int j = 0; j < stoneDiff; j++) {
-                setStone(getFreeRandom());
-            }
+            this.stones = this.stones
+                    .stream()
+                    .limit(stoneDiff)
+                    .collect(toList());
         }
 
         if (apples.size() < applesPerMap.getValue()) {
@@ -231,11 +232,12 @@ public class SnakeBoard implements Field {
             }
 
         } else {
-            this.apples = new ArrayList<>();
+//            this.apples = new ArrayList<>();
             int stoneDiff = applesPerMap.getValue() - apples.size();
-            for (int j = 0; j < stoneDiff; j++) {
-                setApple(getFreeRandom());
-            }
+            this.apples = this.apples
+                    .stream()
+                    .limit(stoneDiff)
+                    .collect(Collectors.toList());
         }
     }
 
