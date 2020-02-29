@@ -63,6 +63,8 @@ public class GameRunner extends AbstractGameType implements GameType {
     private final Parameter<Boolean> virtualRooms;
     private final Parameter<String> mapPath;
     private final Parameter<String> levelSize;
+    private final Parameter<Integer> applesPerMap;
+    private final Parameter<Integer> stonesPerMap;
 
     public GameRunner() {
         new Scores(0, settings);
@@ -80,6 +82,8 @@ public class GameRunner extends AbstractGameType implements GameType {
         virtualRooms = settings.addCheckBox("Virtual rooms for training").type(Boolean.class).def(true);
         mapPath = settings.addEditBox("Map file path").type(String.class).def("");
         levelSize = settings.addSelect("Map size",  CutsomMaps.maps()).type(String.class).def(SMALL.name());
+        applesPerMap = settings.addEditBox("Apples per map").type(Integer.class).def(5);
+        stonesPerMap = settings.addEditBox("Apples per map").type(Integer.class).def(5);
         level = new LevelImpl(CutsomMaps.byName(levelSize.getValue()).getMap());
     }
 
@@ -96,7 +100,9 @@ public class GameRunner extends AbstractGameType implements GameType {
                 stoneReducedValue,
                 minTicksForWin,
                 furyPillsPerTick,
-                flyingPillsPerTick
+                flyingPillsPerTick,
+                applesPerMap,
+                stonesPerMap
             );
     }
 

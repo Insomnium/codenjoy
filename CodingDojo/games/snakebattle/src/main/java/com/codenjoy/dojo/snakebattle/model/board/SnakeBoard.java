@@ -79,6 +79,8 @@ public class SnakeBoard implements Field {
     private Parameter<Integer> minTicksForWin;
     private Parameter<Integer> furyPillsPerTick;
     private Parameter<Integer> flyingPillsPerTick;
+    private Parameter<Integer> applesPerMap;
+    private Parameter<Integer> stonesPerMap;
 
     private int size;
     private Dice dice;
@@ -86,7 +88,8 @@ public class SnakeBoard implements Field {
     public SnakeBoard(Level level, Dice dice, Timer startTimer, Timer roundTimer, Timer winnerTimer,
         Parameter<Integer> roundsPerMatch, Parameter<Integer> flyingCount, Parameter<Integer> furyCount,
         Parameter<Integer> stoneReduced, Parameter<Integer> minTicksForWin,
-        Parameter<Integer> furyPillsPerTick, Parameter<Integer> flyingPillsPerTick) {
+        Parameter<Integer> furyPillsPerTick, Parameter<Integer> flyingPillsPerTick,
+        Parameter<Integer> appledPerMap, Parameter<Integer> stonedPerMap) {
         this.flyingCount = flyingCount;
         this.furyCount = furyCount;
         this.stoneReduced = stoneReduced;
@@ -209,9 +212,9 @@ public class SnakeBoard implements Field {
             setFlyingPill(getFreeRandom());
         if (i == 21 && gold.size() < max*2)
             setGold(getFreeRandom());
-        if ((i == 11 && stones.size() < size / 2) || stones.isEmpty())
+        if (stones.size() < stonesPerMap.getValue() || stones.isEmpty())
             setStone(getFreeRandom());
-        if ((i < 10 && apples.size() < max*10) || apples.size() < max*2)
+        if (apples.size() < applesPerMap.getValue())
             setApple(getFreeRandom());
     }
 
