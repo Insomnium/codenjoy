@@ -102,8 +102,8 @@ public class SnakeBoard implements Field {
         round = 0;
         walls = level.getWalls();
         starts = level.getStartPoints();
-        apples = new ArrayList<>(); //level.getApples();
-        stones = level.getStones();
+        apples = new ArrayList<>();
+        stones = new ArrayList<>();
         flyingPills = level.getFlyingPills();
         furyPills = level.getFuryPills();
         gold = level.getGold();
@@ -212,28 +212,27 @@ public class SnakeBoard implements Field {
             setFlyingPill(getFreeRandom());
         if (i == 21 && gold.size() < max*2)
             setGold(getFreeRandom());
-        if (stones.size() < stonesPerMap.getValue() || stones.isEmpty()) {
+        if (stones.size() <= stonesPerMap.getValue() || stones.isEmpty()) {
             int stoneDiff = stonesPerMap.getValue() - stones.size();
             for (int j = 0; j < stoneDiff; j++) {
                 setStone(getFreeRandom());
             }
         } else {
-            int stoneDiff = stonesPerMap.getValue() - stones.size();
+            int stoneDiff = stones.size() - stonesPerMap.getValue();
             this.stones = this.stones
                     .stream()
                     .limit(stoneDiff)
                     .collect(toList());
         }
 
-        if (apples.size() < applesPerMap.getValue()) {
+        if (apples.size() <= applesPerMap.getValue()) {
             int stoneDiff = applesPerMap.getValue() - apples.size();
             for (int j = 0; j < stoneDiff; j++) {
                 setApple(getFreeRandom());
             }
 
         } else {
-//            this.apples = new ArrayList<>();
-            int stoneDiff = applesPerMap.getValue() - apples.size();
+            int stoneDiff = apples.size() - applesPerMap.getValue();
             this.apples = this.apples
                     .stream()
                     .limit(stoneDiff)
