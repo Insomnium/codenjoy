@@ -60,16 +60,18 @@ public class GameRunner extends AbstractGameType implements GameType {
     private final Parameter<Integer> minTicksForWin;
     private final Parameter<Integer> timePerRound;
     private final Parameter<Integer> timeForWinner;
+    private final Parameter<Integer> applesPerMap;
+    private final Parameter<Integer> stonesPerMap;
     private final Parameter<Boolean> virtualRooms;
     private final Parameter<String> mapPath;
     private final Parameter<String> levelSize;
-    private final Parameter<Integer> applesPerMap;
-    private final Parameter<Integer> stonesPerMap;
 
     public GameRunner() {
         new Scores(0, settings);
         timePerRound = settings.addEditBox("Time per Round").type(Integer.class).def(300);
         timeForWinner = settings.addEditBox("Time for Winner").type(Integer.class).def(1);
+        applesPerMap = settings.addEditBox("Apples per map").type(Integer.class).def(5);
+        stonesPerMap = settings.addEditBox("Stones per map").type(Integer.class).def(5);
         timeBeforeStart = settings.addEditBox("Time before start Round").type(Integer.class).def(5);
         roundsPerMatch = settings.addEditBox("Rounds per Match").type(Integer.class).def(1);
         playersPerRoom = settings.addEditBox("Players per Room").type(Integer.class).def(5);
@@ -82,8 +84,6 @@ public class GameRunner extends AbstractGameType implements GameType {
         virtualRooms = settings.addCheckBox("Virtual rooms for training").type(Boolean.class).def(true);
         mapPath = settings.addEditBox("Map file path").type(String.class).def("");
         levelSize = settings.addSelect("Map size",  CutsomMaps.maps()).type(String.class).def(SMALL.name());
-        applesPerMap = settings.addEditBox("Apples per map").type(Integer.class).def(5);
-        stonesPerMap = settings.addEditBox("Stones per map").type(Integer.class).def(5);
         level = new LevelImpl(CutsomMaps.byName(levelSize.getValue()).getMap());
     }
 
