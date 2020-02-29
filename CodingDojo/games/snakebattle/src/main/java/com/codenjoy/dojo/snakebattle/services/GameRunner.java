@@ -83,7 +83,7 @@ public class GameRunner extends AbstractGameType implements GameType {
         mapPath = settings.addEditBox("Map file path").type(String.class).def("");
         levelSize = settings.addSelect("Map size",  CutsomMaps.maps()).type(String.class).def(SMALL.name());
         applesPerMap = settings.addEditBox("Apples per map").type(Integer.class).def(5);
-        stonesPerMap = settings.addEditBox("Apples per map").type(Integer.class).def(5);
+        stonesPerMap = settings.addEditBox("Stones per map").type(Integer.class).def(5);
         level = new LevelImpl(CutsomMaps.byName(levelSize.getValue()).getMap());
     }
 

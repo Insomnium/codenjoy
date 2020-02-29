@@ -97,6 +97,8 @@ public class SnakeBoard implements Field {
         this.minTicksForWin = minTicksForWin;
         this.furyPillsPerTick = furyPillsPerTick;
         this.flyingPillsPerTick = flyingPillsPerTick;
+        this.applesPerMap = appledPerMap;
+        this.stonesPerMap = stonedPerMap;
 
         this.dice = dice;
         round = 0;
