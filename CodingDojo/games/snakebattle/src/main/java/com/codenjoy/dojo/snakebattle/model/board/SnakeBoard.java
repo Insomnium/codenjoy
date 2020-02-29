@@ -44,11 +44,8 @@ import com.codenjoy.dojo.snakebattle.model.objects.StartFloor;
 import com.codenjoy.dojo.snakebattle.model.objects.Stone;
 import com.codenjoy.dojo.snakebattle.model.objects.Wall;
 import com.codenjoy.dojo.snakebattle.services.Events;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -104,7 +101,7 @@ public class SnakeBoard implements Field {
         round = 0;
         walls = level.getWalls();
         starts = level.getStartPoints();
-        apples = level.getApples();
+        apples = new ArrayList<>(); //level.getApples();
         stones = level.getStones();
         flyingPills = level.getFlyingPills();
         furyPills = level.getFuryPills();
@@ -214,10 +211,20 @@ public class SnakeBoard implements Field {
             setFlyingPill(getFreeRandom());
         if (i == 21 && gold.size() < max*2)
             setGold(getFreeRandom());
-        if (stones.size() < stonesPerMap.getValue() || stones.isEmpty())
-            setStone(getFreeRandom());
-        if (apples.size() < applesPerMap.getValue())
-            setApple(getFreeRandom());
+        if (stones.size() < stonesPerMap.getValue() || stones.isEmpty()) {
+            int stoneDiff = stonesPerMap.getValue() - stones.size();
+            for (int j = 0; j < stoneDiff; j++) {
+                setStone(getFreeRandom());
+            }
+        }
+
+        if (apples.size() < applesPerMap.getValue()) {
+            int stoneDiff = applesPerMap.getValue() - apples.size();
+            for (int j = 0; j < stoneDiff; j++) {
+                setApple(getFreeRandom());
+            }
+
+        }
     }
 
     @Override
