@@ -89,7 +89,7 @@ public class SnakeBoard implements Field {
         Parameter<Integer> roundsPerMatch, Parameter<Integer> flyingCount, Parameter<Integer> furyCount,
         Parameter<Integer> stoneReduced, Parameter<Integer> minTicksForWin,
         Parameter<Integer> furyPillsPerTick, Parameter<Integer> flyingPillsPerTick,
-        Parameter<Integer> appledPerMap, Parameter<Integer> stonedPerMap) {
+      Parameter<Integer> applesPerMap, Parameter<Integer> stonedPerMap) {
         this.flyingCount = flyingCount;
         this.furyCount = furyCount;
         this.stoneReduced = stoneReduced;
@@ -97,7 +97,7 @@ public class SnakeBoard implements Field {
         this.minTicksForWin = minTicksForWin;
         this.furyPillsPerTick = furyPillsPerTick;
         this.flyingPillsPerTick = flyingPillsPerTick;
-        this.applesPerMap = appledPerMap;
+        this.applesPerMap = applesPerMap;
         this.stonesPerMap = stonedPerMap;
 
         this.dice = dice;
