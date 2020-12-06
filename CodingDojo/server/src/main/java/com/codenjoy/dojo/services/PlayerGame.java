@@ -10,12 +10,12 @@ package com.codenjoy.dojo.services;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -25,6 +25,7 @@ package com.codenjoy.dojo.services;
 
 import com.codenjoy.dojo.services.lock.LockedGame;
 import com.codenjoy.dojo.services.multiplayer.GameField;
+import com.codenjoy.dojo.services.multiplayer.LevelProgress;
 import com.codenjoy.dojo.services.nullobj.NullPlayer;
 import com.codenjoy.dojo.services.nullobj.NullPlayerGame;
 import lombok.Getter;
@@ -33,12 +34,12 @@ import java.util.function.Consumer;
 
 /**
  * Класс представляет собой игру пользователя, объединяя данные о пользователе в Player,
- * Игру на которой он играет - Game. Комнату в которой эта игра происходит - playerRoom. 
- * А так же джойстик которым он играет - Joystick. 
+ * Игру на которой он играет - Game. Комнату в которой эта игра происходит - playerRoom.
+ * А так же джойстик которым он играет - Joystick.
  */
 @Getter
 public class PlayerGame implements Tickable {
-    
+
     private Player player;
     private Game game;
     private String roomName;
@@ -57,9 +58,9 @@ public class PlayerGame implements Tickable {
     }
 
     /**
-     * Есть необходимость искать по разным компонентам этого объекта, 
+     * Есть необходимость искать по разным компонентам этого объекта,
      * а потому o - может принимать разные типы
-     * @param o если String - это roomName, 
+     * @param o если String - это roomName,
      *          может быть так же Player, PlayerGame, GameField
      */
     @Override
@@ -70,7 +71,7 @@ public class PlayerGame implements Tickable {
         if (o instanceof String) {
             return o.equals(roomName);
         }
-        
+
         if (o instanceof Player) {
             Player p = (Player)o;
 
@@ -128,15 +129,15 @@ public class PlayerGame implements Tickable {
     public GameType getGameType() {
         return player.getGameType();
     }
-    
+
     public void setRoomName(String roomName) {
         this.roomName = roomName;
         getPlayer();
     }
 
     /*
-     * Так случилось, что roomName содержится в двух местах, 
-     * а потому надо держать в консистентности данные  
+     * Так случилось, что roomName содержится в двух местах,
+     * а потому надо держать в консистентности данные
      */
     public Player getPlayer() {
         if (player != null) {
@@ -150,6 +151,8 @@ public class PlayerGame implements Tickable {
     }
 
     public void clearScore() {
+        game.getPlayer().setProgress(new LevelProgress());
+        player.getScores().clear();
         player.clearScore();
         game.clearScore();
     }
