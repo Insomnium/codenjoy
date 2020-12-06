@@ -611,7 +611,7 @@ public class PlayerServiceImpl implements PlayerService {
         try {
             PlayerGame playerGame = playerGames.get(id);
             playerGame.clearScore();
-            playerGames.reload(playerGame.getGame(), playerGame.getRoomName(), playerGame.getGame().getSave());
+            playerGames.setLevel(id, new JSONObject("{'levelProgress':{'total':1,'current':1,'lastPassed':0}}"));
         } finally {
             lock.writeLock().unlock();
         }
