@@ -10,12 +10,12 @@ package com.codenjoy.dojo.web.controller;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -28,12 +28,17 @@ import com.codenjoy.dojo.services.dao.Registration;
 import com.codenjoy.dojo.services.multiplayer.MultiplayerType;
 import com.codenjoy.dojo.services.nullobj.NullGameType;
 import com.codenjoy.dojo.services.nullobj.NullPlayer;
+import com.codenjoy.dojo.services.security.GameAuthoritiesConstants;
 import com.codenjoy.dojo.services.security.RegistrationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -110,9 +115,9 @@ public class BoardController {
     {
         validator.checkGameName(gameName, CANT_BE_NULL);
 
-        // TODO ROOM а надо ли тут этот метод вообще, ниже есть более универсальный? 
+        // TODO ROOM а надо ли тут этот метод вообще, ниже есть более универсальный?
         // TODO ROOM так как есть rest методы то может вообще убрать отсюда этих двоих?
-        String roomName = gameName; 
+        String roomName = gameName;
         return rejoinGame(model, gameName, roomName, request, user);
     }
 
@@ -171,6 +176,7 @@ public class BoardController {
     }
 
     @GetMapping(URI)
+    @Secured(GameAuthoritiesConstants.ROLE_ADMIN)
     public String boardAll() {
         GameType gameType = playerService.getAnyGameWithPlayers();
         if (gameType == NullGameType.INSTANCE) {
@@ -180,6 +186,7 @@ public class BoardController {
     }
 
     @GetMapping(URI + "/game/{gameName}")
+    @Secured(GameAuthoritiesConstants.ROLE_ADMIN)
     public String boardAllGames(ModelMap model,
                                 @PathVariable("gameName") String gameName,
                                 @RequestParam(value = "code", required = false) String code)
