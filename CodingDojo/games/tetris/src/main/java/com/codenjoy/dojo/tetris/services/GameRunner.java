@@ -10,12 +10,12 @@ package com.codenjoy.dojo.tetris.services;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -26,6 +26,7 @@ package com.codenjoy.dojo.tetris.services;
 import com.codenjoy.dojo.client.ClientBoard;
 import com.codenjoy.dojo.client.Solver;
 import com.codenjoy.dojo.services.*;
+import com.codenjoy.dojo.services.EventListener;
 import com.codenjoy.dojo.services.multiplayer.GameField;
 import com.codenjoy.dojo.services.multiplayer.GamePlayer;
 import com.codenjoy.dojo.services.multiplayer.LevelProgress;
@@ -40,20 +41,25 @@ import com.codenjoy.dojo.tetris.model.levels.LevelsFactory;
 import com.codenjoy.dojo.tetris.model.levels.level.ProbabilityWithoutOverflownLevels;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GameRunner extends AbstractGameType implements GameType {
+
+    private static final String DEFAULT_LEVEL_MODE_ENV_KEY = "DEFAULT_LEVEL_MODE";
+    private static final String DEFAULT_GLASS_SIZE_ENV_KEY = "DEFAULT_GLASS_SIZE";
 
     private Parameter<String> gameLevels;
     private Parameter<Integer> glassSize;
 
     public GameRunner() {
+        String defaultLevelMode = getOrDefaultEnvProperty(DEFAULT_LEVEL_MODE_ENV_KEY,
+                ProbabilityWithoutOverflownLevels.class.getSimpleName(), Objects::toString);
         gameLevels = settings.addSelect("Game Levels", (List)levels())
                 .type(String.class)
-                .def(ProbabilityWithoutOverflownLevels.class.getSimpleName());
-        glassSize = settings.addEditBox("Glass Size").type(Integer.class).def(18);
+                .def(defaultLevelMode);
+
+        Integer defaultGlassSize = getOrDefaultEnvProperty(DEFAULT_GLASS_SIZE_ENV_KEY, "18", Integer::parseInt);
+        glassSize = settings.addEditBox("Glass Size").type(Integer.class).def(defaultGlassSize);
     }
 
     private List<String> levels() {

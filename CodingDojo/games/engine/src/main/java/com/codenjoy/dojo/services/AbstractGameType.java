@@ -10,12 +10,12 @@ package com.codenjoy.dojo.services;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -29,6 +29,11 @@ import com.codenjoy.dojo.services.printer.PrinterFactoryImpl;
 import com.codenjoy.dojo.services.settings.Settings;
 import com.codenjoy.dojo.services.settings.SettingsImpl;
 
+import java.util.Map;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toMap;
+
 /**
  * Класс позволяет не фиксить все игры, если будет добьавлен интерфейсный метод в GameType
  * Так же содержит наиболее общий код, актуальный для всех игр
@@ -37,8 +42,30 @@ public abstract class AbstractGameType implements GameType {
 
     protected final Settings settings;
 
+    private Map<String, String> gameTypeEnvProperties;
+
     public AbstractGameType() {
         settings = createSettings();
+        gameTypeEnvProperties = readGameTypeEnvProps();
+    }
+
+    private Map<String, String> readGameTypeEnvProps() {
+        return System.getenv().entrySet()
+                .stream()
+                .filter(propEntry -> propEntry.getKey().startsWith(name().toUpperCase()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    protected <T> T getOrDefaultEnvProperty(String keySuffix, String defVal, Function<String, T> mapper) {
+        return mapper.apply(gameTypeEnvProperties.getOrDefault(buildGameEnvPropKey(keySuffix), defVal));
+    }
+
+    protected String getEnvProperty(String keySuffix) {
+        return getOrDefaultEnvProperty(keySuffix, null, n -> null);
+    }
+
+    private String buildGameEnvPropKey(String keySuffix) {
+        return String.format("%s_%s", name().toUpperCase(), keySuffix);
     }
 
     /**
